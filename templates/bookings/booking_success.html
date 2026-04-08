@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Заявка отправлена{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h1 class="section-title">Заявка отправлена</h1>
+    <p>Спасибо. Мы получили вашу заявку и скоро свяжемся с вами.</p>
+
+    {% if booking_id %}
+        <p>Номер заявки: <strong>#{{ booking_id }}</strong></p>
+    {% endif %}
+
+    <a href="{% url 'core:home' %}" class="btn">На главную</a>
+</section>
+{% endblock %}

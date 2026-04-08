@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Уютный мини-хостел в Бишкеке для комфортного отдыха и удобных поездок</h1>
+    <p>
+        Чистые номера, спокойная атмосфера, удобное расположение и быстрое бронирование.
+        Подходит для гостей города, командировок и короткого проживания.
+    </p>
+    <a href="{% url 'bookings:booking_create' %}" class="btn btn-light">Забронировать сейчас</a>
+</section>
+
+<section class="about-section">
+    <div class="about-grid">
+        <div class="about-text-card">
+            <span class="section-badge">О нас</span>
+            <h2 class="section-title">Комфортное проживание без лишнего шума и суеты</h2>
+            <p>
+                Наш мини-хостел создан для гостей, которым важны чистота, спокойствие,
+                удобство и честная цена. Мы постарались сделать пространство, где можно
+                спокойно отдохнуть, восстановиться после дороги и чувствовать себя комфортно.
+            </p>
+            <p>
+                У нас удобные номера, приятная атмосфера и простая система бронирования.
+                Вы оставляете заявку на сайте — мы быстро связываемся с вами и подтверждаем бронь.
+            </p>
+        </div>
+
+        <div class="about-side-card">
+            <div class="mini-stat">
+                <strong>24/7</strong>
+                <span>Приём заявок</span>
+            </div>
+            <div class="mini-stat">
+                <strong>Чисто</strong>
+                <span>Аккуратные номера и порядок</span>
+            </div>
+            <div class="mini-stat">
+                <strong>Удобно</strong>
+                <span>Быстрая бронь и простая связь</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="feature-box">
+        <h4>Чистые номера</h4>
+        <p>Уютное пространство для отдыха и комфортного проживания.</p>
+    </div>
+    <div class="feature-box">
+        <h4>Спокойная атмосфера</h4>
+        <p>Подходит для отдыха, поездок по делам и короткого проживания.</p>
+    </div>
+    <div class="feature-box">
+        <h4>Удобное расположение</h4>
+        <p>Гостям легко добраться и удобно планировать поездку.</p>
+    </div>
+    <div class="feature-box">
+        <h4>Быстрое подтверждение</h4>
+        <p>Оставьте заявку на сайте и получите обратную связь.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-head">
+        <div>
+            <span class="section-badge">Номера</span>
+            <h2 class="section-title">Популярные варианты размещения</h2>
+        </div>
+        <a href="{% url 'rooms:room_list' %}" class="btn">Все номера</a>
+    </div>
+
+    <div class="grid">
+        {% for room in rooms %}
+            <div class="card">
+                {% with main_image=room.images.first %}
+                    {% if main_image %}
+                        <img src="{{ main_image.image.url }}" alt="{{ room.title }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/900x600?text=Room+Image" alt="{{ room.title }}">
+                    {% endif %}
+                {% endwith %}
+                <div class="card-body">
+                    <h3>{{ room.title }}</h3>
+                    <p>{{ room.short_description }}</p>
+                    <p>Вместимость: {{ room.capacity }} гостей</p>
+                    <div class="price">{{ room.price_per_night }} сом / ночь</div>
+                    <div class="card-actions">
+                        <a href="{% url 'rooms:room_detail' room.slug %}" class="btn">Подробнее</a>
+                        <a href="{% url 'bookings:booking_create_for_room' room.slug %}" class="btn btn-outline">Забронировать</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>Пока нет доступных номеров.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="cta-box">
+        <div>
+            <span class="section-badge light">Бронирование</span>
+            <h2>Готовы забронировать номер?</h2>
+            <p>
+                Оставьте заявку прямо сейчас, и мы свяжемся с вами для подтверждения.
+            </p>
+        </div>
+        <div class="cta-actions">
+            <a href="{% url 'bookings:booking_create' %}" class="btn btn-light">Оставить заявку</a>
+            <a href="{% url 'contacts:contact' %}" class="btn btn-dark-soft">Контакты</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

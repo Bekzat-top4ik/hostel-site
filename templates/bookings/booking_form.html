@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Бронирование{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h1 class="section-title">Бронирование</h1>
+
+    {% if room %}
+        <div class="booking-info-box">
+            Вы выбрали номер: <strong>{{ room.title }}</strong>
+        </div>
+    {% endif %}
+
+    <form method="post" class="booking-form">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="form-errors">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        {{ form.room }}
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="{{ form.full_name.id_for_label }}">Ваше имя</label>
+                {{ form.full_name }}
+                {{ form.full_name.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.phone.id_for_label }}">Телефон</label>
+                {{ form.phone }}
+                {{ form.phone.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.check_in.id_for_label }}">Дата заезда</label>
+                {{ form.check_in }}
+                {{ form.check_in.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.check_out.id_for_label }}">Дата выезда</label>
+                {{ form.check_out }}
+                {{ form.check_out.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.guests_count.id_for_label }}">Количество гостей</label>
+                {{ form.guests_count }}
+                {{ form.guests_count.errors }}
+            </div>
+
+            {% if not room %}
+                <div class="form-group">
+                    <label for="{{ form.room.id_for_label }}">Номер</label>
+                    {{ form.room }}
+                    {{ form.room.errors }}
+                </div>
+            {% endif %}
+
+            <div class="form-group form-group-full">
+                <label for="{{ form.comment.id_for_label }}">Комментарий</label>
+                {{ form.comment }}
+                {{ form.comment.errors }}
+            </div>
+        </div>
+
+        <button type="submit" class="btn">Отправить заявку</button>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Номера{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h1 class="section-title">Номера</h1>
+    <div class="grid">
+        {% for room in rooms %}
+            <div class="card">
+                {% with main_image=room.images.first %}
+                    {% if main_image %}
+                        <img src="{{ main_image.image.url }}" alt="{{ room.title }}">
+                    {% endif %}
+                {% endwith %}
+                <div class="card-body">
+                    <h3>{{ room.title }}</h3>
+                    <p>{{ room.short_description }}</p>
+                    <p>Вместимость: {{ room.capacity }} гостей</p>
+                    <div class="price">{{ room.price_per_night }} сом / ночь</div>
+                    <a href="{% url 'rooms:room_detail' room.slug %}" class="btn">Подробнее</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>Номеров пока нет.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

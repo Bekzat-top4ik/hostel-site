@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}{{ room.title }}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h1 class="section-title">{{ room.title }}</h1>
+
+    <div class="room-gallery">
+        {% for image in room.images.all %}
+            <img src="{{ image.image.url }}" alt="{{ image.alt_text|default:room.title }}">
+        {% empty %}
+            <p>Фотографии пока не добавлены.</p>
+        {% endfor %}
+    </div>
+
+    <div class="room-detail-box">
+        <p>{{ room.description }}</p>
+        <p>Вместимость: {{ room.capacity }} гостей</p>
+        <div class="price">{{ room.price_per_night }} сом / ночь</div>
+        <a href="{% url 'bookings:booking_create_for_room' room.slug %}" class="btn">Забронировать</a>
+    </div>
+</section>
+{% endblock %}
